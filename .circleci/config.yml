@@ -148,6 +148,16 @@ jobs:
             npm audit --audit-level=critical
       - failure_event    
 
+  success_event:
+    docker:
+      - image: cimg/base
+    steps:
+      - slack/notify:
+        event: pass
+        channel: circleci
+        template: success_tagged_deploy_1
+
+
 
 
 #   deploy-infrastructure:
@@ -315,15 +325,6 @@ jobs:
 #               # your code here
 #             fi
             
-  success_event:
-    docker:
-      - image: cimg/base  
-     steps:
-      - slack/notify:
-        event: pass
-        channel: circleci
-        template: success_tagged_deploy_1
-
 
 workflows:
   default:
@@ -344,7 +345,7 @@ workflows:
             - test-backend
             - scan-backend
             - scan-frontend
-            
+
 
 
 
