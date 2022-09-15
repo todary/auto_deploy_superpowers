@@ -7,9 +7,9 @@ commands:
   failure_event:
     steps:
       - slack/notify:
-        event: fail
-        channel: circleci
-        template: basic_fail_1
+          event: fail
+          channel: circleci
+          template: basic_fail_1
 
 # commands:
 #   destroy-environment:
