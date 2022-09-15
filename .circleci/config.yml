@@ -153,9 +153,9 @@ jobs:
       - image: cimg/base
     steps:
       - slack/notify:
-        event: pass
-        channel: circleci
-        template: success_tagged_deploy_1
+          event: pass
+          channel: circleci
+          template: success_tagged_deploy_1
 
 
 
