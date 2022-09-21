@@ -22,6 +22,8 @@ commands:
             unzip awscliv2.zip
             sudo ./aws/install
 
+            
+
   install_ansible:
     steps:
       - run:
@@ -34,20 +36,20 @@ commands:
 
 
 
-# destroy-environment:
-#   description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-#   parameters:
-#     Workflow_ID:
-#       type: string
-#       default: ${CIRCLE_WORKFLOW_ID:0:7}
-#   steps:
-#     - run:
-#         name: Destroy environments
-#         when: on_fail
-#         command: |
-#           aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
-#           aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
-#           aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
+  destroy-environment:
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+    parameters:
+      Workflow_ID:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
+    steps:
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
+            aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
 
 
 # commands:
@@ -202,6 +204,7 @@ jobs:
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --region us-west-2 \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
 
       - run:
@@ -211,6 +214,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --region us-west-2 \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
 
       - run:
@@ -219,6 +223,7 @@ jobs:
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --region us-west-2 \
               --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
