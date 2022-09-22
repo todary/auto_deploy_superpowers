@@ -27,13 +27,25 @@ commands:
   install_ansible:
     steps:
       - run:
-          name: Install Ansible v2
+          name: Install Ansible 
           command: |
             sudo apt update
-            sudo apt install software-properties-common
+            sudo apt install software-properties-common -y
             sudo apt-add-repository --yes --update ppa:ansible/ansible
-            sudo apt install ansible
+            sudo apt install ansible -y
 
+  install_nodejs:
+    description: Install Node.js 13
+    steps:
+      - run:
+          name: Install Node.js 13
+          command: |
+            # Install Node.js LTS version as our base Node.js version
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+            # Use n version manager to use Node.js v13.8.0
+            sudo npm install --global n
+            sudo n 13.8.0
 
 
   destroy-environment:
@@ -257,10 +269,12 @@ jobs:
 
   run-migrations:
     docker:
-      - image: sleavely/node-awscli:14.x
+      - image: cimg/node:10.19.0
     steps:
       - checkout
-      # - install_aws_cli
+      - install_aws_cli
+      - install_nodejs
+
       
       - restore_cache:
           keys:
