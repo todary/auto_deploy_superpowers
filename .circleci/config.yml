@@ -257,14 +257,19 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:13.8.0
+      - image: circleci/node:10.15.0
     steps:
       - checkout
       - install_aws_cli
+      
+      - restore_cache:
+          keys:
+            - backend-build
       - run:
           name: Run migrations
           command: |
             cd backend
+            npm cache clean --force
             npm install
             npm run migrations > migrations_dump.txt
       - run:
