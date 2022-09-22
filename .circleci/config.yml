@@ -270,6 +270,7 @@ jobs:
           command: |
             cd backend
             npm cache clean --force
+            npm i
             npm install
             npm run migrations > migrations_dump.txt
       - run:
