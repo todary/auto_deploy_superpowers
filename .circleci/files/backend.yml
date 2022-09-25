@@ -32,22 +32,15 @@ Resources:
       SecurityGroups:
         - Ref: InstanceSecurityGroup
       KeyName: udacity
-      ImageId: ami-0149b2da6ceec4bb0
+      ImageId: ami-0d70546e43a941d70
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
         - Key: Project
           Value: Udapeople
 
-
   InstanceEIP:
     Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
       InstanceId: !Ref EC2Instance
-
-
-      global:
-   scrape_interval:15s
-   external_labels:
-     monitor:'prometheus'
