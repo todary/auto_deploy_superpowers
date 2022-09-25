@@ -272,7 +272,7 @@ jobs:
       - image: cimg/node:13.8.0
     steps:  
       - checkout
-      - install_awscli
+      - install_aws_cli
       - attach_workspace:
           at: ~/
       - restore_cache:
