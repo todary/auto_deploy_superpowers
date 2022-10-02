@@ -25,6 +25,7 @@
   become: true
   shell: |
     sudo apt install net-tools
+    
 
 - name: "checking port 3030 "
   become: true
